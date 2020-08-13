@@ -605,8 +605,6 @@ static int spidev_release(struct inode *inode, struct file *filp)
 	/* last close? */
 	spidev->users--;
 	if (!spidev->users) {
-
-
 		if (dofree)
 			kfree(spidev);
 		else
