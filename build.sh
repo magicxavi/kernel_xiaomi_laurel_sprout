@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Colors
+green='\033[01;32m'
+red='\033[01;31m'
+blink_red='\033[05;31m'
+cyan='\033[0;36m'
+yellow='\033[0;33m'
+blue='\033[0;34m'
+default='\033[0m'
+
+# Define variables
+KERNEL_DIR=$PWD
+Anykernel_DIR=$KERNEL_DIR/AnyKernel3/
+DATE=$(date +"%d%m%Y")
+TIME=$(date +"-%H.%M.%S")
+KERNEL_NAME="ShineLotus-v14"
+DEVICE="-laurel_sprout-"
+FINAL_ZIP="$KERNEL_NAME""$DEVICE""$DATE""$TIME"
+
+BUILD_START=$(date +"%s")
+
+# Export variables
+export KBUILD_BUILD_USER="Magicxavi"
+export KBUILD_BUILD_HOST="MotherRussia"
+export TARGET_KERNEL_CLANG_COMPILE=true
+PATH="/home/magicxavi/bliss/prebuilts/clang/host/linux-x86/clang-r353983d/bin:/home/magicxavi/bliss/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin:/home/magicxavi/bliss/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin:${PATH}"
+
+echo -e "$green***********************************************"
+echo  "          Compiling ShineLotus Kernel              "
+echo -e "***********************************************"
+
+# Finally build it
+mkdir -p out
+make O=out ARCH=arm64 vendor/laurel_sprout-perf_defconfig
+make -j$(nproc --all) O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- Image.gz-dtb
+
+echo -e "$yellow***********************************************"
+echo  "                Zipping Kernel                     "
+echo -e "***********************************************"
+
+# Create the flashable zip
+cp out/arch/arm64/boot/Image.gz-dtb $Anykernel_DIR
+cd $Anykernel_DIR
+zip -r9 $FINAL_ZIP.zip * -x .git README.md *placeholder
+
+echo -e "$cyan***********************************************"
+echo  "                 Cleaning up                    "
+echo -e "***********************************************$default"
+
+# Cleanup again
+cd ../
+rm -rf $Anykernel_DIR/Image.gz-dtb
+rm -rf out
+
+# Build complete
+BUILD_END=$(date +"%s")
+DIFF=$(($BUILD_END - $BUILD_START))
+echo -e "$green Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds.$default"
