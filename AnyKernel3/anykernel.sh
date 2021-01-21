@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=ShineLotus-v14
+kernel.string=ShineLotus-v15
 do.devicecheck=1
 do.modules=0
 do.systemless=1
