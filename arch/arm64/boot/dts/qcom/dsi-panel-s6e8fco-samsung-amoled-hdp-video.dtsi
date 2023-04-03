@@ -83,30 +83,53 @@
 		qcom,disp-doze-lbm-backlight = <15>;
 		qcom,disp-doze-hbm-backlight = <190>;
 
-
 		qcom,disp-fod-dim-lut = <
 			/* brightness, alpha */
-			0	0XFF
-			3	0XEB
-			13	0XDD
-			31	0XD0
-			58	0XC4
-			96	0XB8
-			143	0XAD
-			200	0XA2
-			269	0X97
-			348	0X8D
-			439	0X83
-			551	0X78
-			667	0X6E
-			794	0X65
-			934	0X5B
-			1086	0X52
-			1250	0X48
-			1427	0X3F
-			1618	0X36
-			1821	0X2D
-			2047	0X24
+			0	0xFF
+			3	0xF4
+			13	0xE9
+			31	0xDE
+			58	0xD3
+			96	0xC8
+			143	0xBD
+			200	0xB2
+			269	0xA7
+			348	0x9C
+			439	0x91
+			551	0x85
+			667	0x7A
+			794	0x6F
+			934	0x64
+			1086	0x59
+			1250	0x4E
+			1427	0x43
+			1618	0x38
+			1821	0x2D
+			2047	0x22
+		>;
+		qcom,disp-dc-dim-lut = <
+			/* brightness, alpha */
+			0	0xFF
+			1	0xF2
+			4	0xE6
+			9	0xD9
+			18	0xCC
+			29	0xBF
+			43	0xB3
+			60	0xA6
+			81	0x99
+			106	0x8C
+			132	0x80
+			163	0x73
+			198	0x66
+			237	0x59
+			277	0x4D
+			323	0x40
+			373	0x33
+			428	0x26
+			481	0x1A
+			544	0xD
+			610	0x0
 		>;
 
 		qcom,mdss-dsi-display-timings {
