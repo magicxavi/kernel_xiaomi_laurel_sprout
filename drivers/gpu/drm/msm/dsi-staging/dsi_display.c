@@ -5505,10 +5505,49 @@ error:
 	return rc;
 }
 
+bool is_dimlayer_hbm_enabled;
+static ssize_t dimlayer_hbm_show(struct device *dev,
+	struct device_attribute *attr, char *buf)
+{
+	struct dsi_display *display = dev_get_drvdata(dev);
+	if (!display->panel)
+		return 0;
+
+	return snprintf(buf, PAGE_SIZE, "%d\n", is_dimlayer_hbm_enabled);
+}
+
+static ssize_t dimlayer_hbm_store(struct device *dev,
+	struct device_attribute *attr, const char *buf, size_t count)
+{
+	int ret = 0;
+	struct dsi_display *display = dev_get_drvdata(dev);
+	if (!display->panel)
+		return ret;
+
+	sscanf(buf, "%d", &ret);
+
+	is_dimlayer_hbm_enabled = ret > 0;
+
+	return count;
+}
+
+DEVICE_ATTR_RW(dimlayer_hbm);
+
+static struct attribute *display_fs_attrs[] = {
+	&dev_attr_dimlayer_hbm.attr,
+	NULL,
+};
+static struct attribute_group display_fs_attrs_group = {
+	.attrs = display_fs_attrs,
+};
 static int dsi_display_sysfs_init(struct dsi_display *display)
 {
 	int rc = 0;
 	struct device *dev = &display->pdev->dev;
+
+	rc = sysfs_create_group(&dev->kobj, &display_fs_attrs_group);
+	if (rc)
+		pr_err("failed to create display device attributes");
 
 	if (display->panel->panel_mode == DSI_OP_CMD_MODE)
 		rc = sysfs_create_group(&dev->kobj,
