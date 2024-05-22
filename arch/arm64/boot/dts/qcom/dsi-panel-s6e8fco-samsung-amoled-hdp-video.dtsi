@@ -144,7 +144,7 @@
 				qcom,mdss-dsi-v-back-porch = <5>;
 				qcom,mdss-dsi-v-front-porch = <17>;
 				qcom,mdss-dsi-v-pulse-width = <2>;
-				qcom,mdss-dsi-panel-framerate = <66>;
+				qcom,mdss-dsi-panel-framerate = <60>;
 				qcom,mdss-dsi-on-command = [
 				39 01 00 00 00 00 03 FC 5A 5A
 				39 01 00 00 00 00 03 51 00 00
@@ -200,13 +200,13 @@
 				  15 01 00 00 00 00 02 53 28
 				];
 				qcom,mdss-dsi-dispparam-hbm-fod-on-command = [
-					15 01 00 00 10 00 02 53 E0];
+					15 01 00 00 15 00 02 53 E0];
 				qcom,mdss-dsi-dispparam-hbm-fod-off-command = [
-					15 01 00 00 10 00 02 53 20];
+					15 01 00 00 20 00 02 53 20];
 				qcom,mdss-dsi-dispparam-hbm-fod-off-doze-lbm-on-command = [
-					15 01 00 00 10 00 02 53 23];
+					15 01 00 00 20 00 02 53 23];
 				qcom,mdss-dsi-dispparam-hbm-fod-off-doze-hbm-on-command = [
-					15 01 00 00 10 00 02 53 22];
+					15 01 00 00 15 00 02 53 22];
 
 				qcom,mdss-dsi-post-on-command-state = "dsi_hs_mode";
 
@@ -222,8 +222,8 @@
 				qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
 				qcom,mdss-dsi-dispparam-hbm-fod-on-command-state = "dsi_lp_mode";
 				qcom,mdss-dsi-dispparam-hbm-fod-off-command-state = "dsi_lp_mode";
-				qcom,mdss-dsi-dispparam-hbm-fod-off-doze-lbm-on-command-state = "dsi_hs_mode";
-				qcom,mdss-dsi-dispparam-hbm-fod-off-doze-hbm-on-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-dispparam-hbm-fod-off-doze-lbm-on-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-dispparam-hbm-fod-off-doze-hbm-on-command-state = "dsi_lp_mode";
 			};
 		};
 	};
