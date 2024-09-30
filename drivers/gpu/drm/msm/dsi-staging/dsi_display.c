@@ -49,6 +49,7 @@
 #define MAX_NAME_SIZE	64
 
 #define DSI_CLOCK_BITRATE_RADIX 10
+#define DSI_FOD_HBM_RADIX 10
 #define MAX_TE_SOURCE_ID  2
 #define AOD_BRIGHTNESS 190
 
@@ -5604,6 +5605,18 @@ static ssize_t dc_dimming_store(struct device *dev,
 	return count;
 }
 
+static DEVICE_ATTR(fod_hbm, 0644,
+			hbm_show,
+			hbm_store);
+
+static struct attribute *fod_hbm_fs_attrs[] = {
+	&dev_attr_fod_hbm.attr,
+	NULL,
+};
+static struct attribute_group fod_hbm_fs_attrs_group = {
+	.attrs = fod_hbm_fs_attrs,
+};
+
 static DEVICE_ATTR(fod_ui, 0444,
 			sysfs_fod_ui_read,
 			NULL);
@@ -5641,6 +5654,11 @@ static int dsi_display_sysfs_init(struct dsi_display *display)
 
 		kernfs_put(dsi_node);
 	}
+
+	rc = sysfs_create_group(&dev->kobj,
+			&fod_hbm_fs_attrs_group);
+	if (rc)
+		pr_err("failed to create fod hbm device attributes");
 
 	rc = sysfs_create_group(&dev->kobj, &display_fs_attrs_group);
 	if (rc) {
