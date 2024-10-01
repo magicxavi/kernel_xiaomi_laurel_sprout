@@ -10,9 +10,9 @@ blue='\033[0;34m'
 default='\033[0m'
 
 # Define variables
-CLANG_VER="clang-r498229b"
-ROM_PATH="$HOME/drive2/pixelos14"
-CLANG_DIR=$ROM_PATH/prebuilts/clang/host/linux-x86/$CLANG_VER
+CLANG_VER="clang-r530567"
+ROM_PATH="$HOME/linux-x86"
+CLANG_DIR=$ROM_PATH/$CLANG_VER
 KERNEL_DIR=$PWD
 Anykernel_DIR=$KERNEL_DIR/AnyKernel3/
 DATE=$(date +"[%d%m%Y]")
