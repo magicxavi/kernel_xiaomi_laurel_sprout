@@ -10,7 +10,9 @@ blue='\033[0;34m'
 default='\033[0m'
 
 # Define variables
-CLANG_VER="clang-r530567"
+CLANG_VER="clang-r522817"
+ROM_PATH="$HOME/drive2/pm15/prebuilts/clang/host/linux-x86"
+PCLANG_DIR=$ROM_PATH/$CLANG_VER
 CLANG_PATH_FILE="$HOME/.clang_path"
 KERNEL_DIR=$PWD
 Anykernel_DIR="$KERNEL_DIR/AnyKernel3/"
@@ -28,46 +30,68 @@ rm -rf $Anykernel_DIR/dtbo.img
 
 BUILD_START=$(date +"%s")
 
-# Check if the CLANG path is saved in the file
-if [ -f "$CLANG_PATH_FILE" ]; then
-  CLANG_DIR=$(cat "$CLANG_PATH_FILE")
-  
-  # Confirm if CLANG_DIR exists in the filesystem
-  if [ ! -d "$CLANG_DIR" ]; then
-    echo -e "${yellow}Warning: Saved CLANG directory does not exist. Searching again...${default}"
-    CLANG_DIR=""
-  fi
-else
-  # File does not exist, need to find CLANG_DIR
-  CLANG_DIR=""
-fi
+# Initialize variables
+USE_PCLANG=false
+CLEANUP=true
 
-# If CLANG_DIR is empty, search for it
-if [ -z "$CLANG_DIR" ]; then
-  CLANG_DIR=$(find "$HOME" -type d -name "$CLANG_VER" -print -quit 2>/dev/null)
-  
-  if [ -z "$CLANG_DIR" ]; then
-    echo -e "${red}Error: $CLANG_VER directory not found in $HOME. Exiting.${default}"
-    exit 1
-  fi
-  
-  # Save the found path to the file for future runs
-  echo "$CLANG_DIR" > "$CLANG_PATH_FILE"
-else
-  # Check if the saved CLANG_VER matches the current one
-  SAVED_CLANG_VER=$(basename "$CLANG_DIR")
-  if [ "$SAVED_CLANG_VER" != "$CLANG_VER" ]; then
-    echo -e "${yellow}CLANG_VER has changed from $SAVED_CLANG_VER to $CLANG_VER. Searching again...${default}"
-    CLANG_DIR=$(find "$HOME" -type d -name "$CLANG_VER" -print -quit 2>/dev/null)
+# Parse flags
+while getopts "pd" flag; do
+    case "${flag}" in
+        p) USE_PCLANG=true ;;
+        d) CLEANUP=false ;;
+    esac
+done
 
-    if [ -z "$CLANG_DIR" ]; then
-      echo -e "${red}Error: $CLANG_VER directory not found in $HOME. Exiting.${default}"
-      exit 1
+# Determine CLANG_DIR
+if $USE_PCLANG; then
+    CLANG_DIR="$PCLANG_DIR"
+    if [ ! -d "$CLANG_DIR" ]; then
+        echo -e "${red}Error: PCLANG_DIR $CLANG_DIR does not exist. Exiting.${default}"
+        exit 1
     fi
-
-    # Save the new path to the file for future runs
-    echo "$CLANG_DIR" > "$CLANG_PATH_FILE"
-  fi
+    echo -e "${blue}Using PCLANG_DIR: $CLANG_DIR${default}"
+else
+    # Check if the CLANG path is saved in the file
+    if [ -f "$CLANG_PATH_FILE" ]; then
+        CLANG_DIR=$(cat "$CLANG_PATH_FILE")
+      
+        # Confirm if CLANG_DIR exists in the filesystem
+        if [ ! -d "$CLANG_DIR" ]; then
+            echo -e "${yellow}Warning: Saved CLANG directory does not exist. Searching again...${default}"
+            CLANG_DIR=""
+        fi
+    else
+        # File does not exist, need to find CLANG_DIR
+        CLANG_DIR=""
+    fi
+    
+    # If CLANG_DIR is empty, search for it
+    if [ -z "$CLANG_DIR" ]; then
+        CLANG_DIR=$(find "/" -type d -name "$CLANG_VER" -print -quit 2>/dev/null)
+      
+        if [ -z "$CLANG_DIR" ]; then
+            echo -e "${red}Error: $CLANG_VER directory not found in System. Exiting.${default}"
+            exit 1
+        fi
+      
+        # Save the found path to the file for future runs
+        echo "$CLANG_DIR" > "$CLANG_PATH_FILE"
+    else
+        # Check if the saved CLANG_VER matches the current one
+        SAVED_CLANG_VER=$(basename "$CLANG_DIR")
+        if [ "$SAVED_CLANG_VER" != "$CLANG_VER" ]; then
+            echo -e "${yellow}CLANG_VER has changed from $SAVED_CLANG_VER to $CLANG_VER. Searching again...${default}"
+            CLANG_DIR=$(find "/" -type d -name "$CLANG_VER" -print -quit 2>/dev/null)
+        
+            if [ -z "$CLANG_DIR" ]; then
+                echo -e "${red}Error: $CLANG_VER directory not found in System. Exiting.${default}"
+                exit 1
+            fi
+        
+            # Save the new path to the file for future runs
+            echo "$CLANG_DIR" > "$CLANG_PATH_FILE"
+        fi
+    fi
 fi
 
 # Export variables
@@ -97,16 +121,8 @@ echo -e "$cyan***********************************************"
 echo "                 Cleaning up                    "
 echo -e "***********************************************$default"
 
-# Check for -d flag to skip cleanup
-CLEANUP=true
-while getopts "d" flag; do
-    case "${flag}" in
-        d) CLEANUP=false ;;
-    esac
-done
-
-# Cleanup again if CLEANUP is true
-if $CLEANUP; then
+# Cleanup if CLEANUP is true
+if ${CLEANUP:-true}; then
   cd "$KERNEL_DIR" || exit
   rm -rf "$Anykernel_DIR/Image.gz-dtb"
   rm -rf "$Anykernel_DIR/dtbo.img"
