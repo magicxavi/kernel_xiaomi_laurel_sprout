@@ -5999,3 +5999,8 @@ CONFIG_MACH_XIAOMI_TRINKET=y
 # Xiaomi board selection
 #
 CONFIG_MACH_XIAOMI_F9S=y
+
+#
+# Fast charging
+#
+CONFIG_FORCE_FAST_CHARGE=y
