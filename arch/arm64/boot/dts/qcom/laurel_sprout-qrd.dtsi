@@ -55,7 +55,7 @@
 	qcom,hold-soc-while-full;
 	qcom,shutdown-temp-diff = <100>; /* 10 degrees C */
 	qcom,ignore-shutdown-soc-secs = <2592000>; /* One month */
-	qcom,shutdown_soc_threshold = <30>; /*30%*/
+	qcom,shutdown_soc_threshold = <40>; /*40%*/
 	qcom,linearize-soc;
 	qcom,qg-use-s7-ocv;
 	qcom,cl-disable = <1>;
