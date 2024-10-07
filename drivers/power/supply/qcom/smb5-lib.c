@@ -2692,7 +2692,7 @@ static void smblib_hvdcp_adaptive_voltage_change(struct smb_charger *chg)
 	power_supply_changed(chg->usb_main_psy);
 }
 
-#define PULSE_CNT_MAX  17      /*17*200 + 5000 = 8.4V*/
+#define PULSE_CNT_MAX  19      /*17*200 + 5000 = 8.4V*/
 int smblib_dp_dm(struct smb_charger *chg, int val)
 {
 	int target_icl_ua, rc = 0;
