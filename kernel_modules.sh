@@ -3,7 +3,7 @@
 # Copyright (C) 2020 Pig <pig.priv@gmail.com>
 #
 # Simple script to import/update kernel modules
-# Version 0.3
+# Version 0.4
 #
 
 # Aliases
@@ -45,6 +45,16 @@ case $num in
     4) mod="audio-kernel"; dir="techpack/audio" ;;
 esac
 
+# Check if remote 'clo' exists, add it if missing
+if ! git remote | grep -q "^clo$"; then
+    echo "Adding remote 'clo'..."
+    if [ "$mod" = "audio-kernel" ]; then
+        git remote add clo $rm/$os/$mod
+    else
+        git remote add clo $rm/$wl/$mod
+    fi
+fi
+
 case $option in
     import | i)
         if [ "$mod" = "audio-kernel" ]; then
@@ -52,11 +62,9 @@ case $option in
             git subtree add --prefix=techpack/audio https://git.codelinaro.org/clo/la/platform/vendor/opensource/audio-kernel LA.UM.9.1.r1-16400-SMxxx0.QSSI14.0
             echo "Import of audio-kernel done."
             exit 0
-        else
-            git remote add clo $rm/$wl/$mod
         fi
-        echo "Added remote for module $mod."
 
+        echo "Added remote for module $mod."
         case $mod in
             qcacld-3.0 | qca-wifi-host-cmn | fw-api)
                 if [ "$cmd" = "s" ]; then
