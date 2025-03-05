@@ -16,6 +16,7 @@ if [ "$1" = "-p" ] ; then
 fi
 
 compiler="$*"
+echo "Compiler: $compiler"
 
 if [ ${#compiler} -eq 0 ]; then
 	echo "Error: No compiler specified."
