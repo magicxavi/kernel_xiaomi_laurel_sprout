@@ -82,7 +82,7 @@
 		qcom,dsi-supported-dfps-list = <66 60 30>;
 		qcom,disp-doze-lbm-backlight = <15>;
 		qcom,disp-doze-hbm-backlight = <190>;
-		qcom,mdss-dsi-panel-dc-threshold = <320>;
+		qcom,mdss-dsi-panel-dc-threshold = <610>;
 		
 		qcom,ulps-enabled;
 		qcom,suspend-ulps-enabled;
