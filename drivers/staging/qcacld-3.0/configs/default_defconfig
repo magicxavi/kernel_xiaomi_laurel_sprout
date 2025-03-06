@@ -492,20 +492,25 @@ ifneq ($(TARGET_BUILD_VARIANT),user)
 	CONFIG_WLAN_DEBUG_CRASH_INJECT := y
 endif
 
+#Enable WLAN/Power debugfs feature only if debug_fs is enabled
 ifeq ($(CONFIG_DEBUG_FS), y)
-    # Check WLAN debugfs if debugfs is enabled in the kernel
-    ifeq ($(CONFIG_WLAN_DEBUGFS), y)
-        CONFIG_WLAN_MWS_INFO_DEBUGFS := y
-        CONFIG_WLAN_FEATURE_MIB_STATS := y
-    else
-        CONFIG_WLAN_MWS_INFO_DEBUGFS := n
-        CONFIG_WLAN_FEATURE_MIB_STATS := n
-    endif
+       # Flag to enable debugfs. Depends on CONFIG_DEBUG_FS in kernel
+       # configuration.
+       CONFIG_WLAN_DEBUGFS := y
 
-    # Enable streamfs if both debugfs and relay are enabled
-    ifeq ($(CONFIG_RELAY), y)
-        CONFIG_WLAN_STREAMFS := y
-    endif
+       # Flag to enable streamfs. Depends on CONFIG_DEBUG_FS and
+       # CONFIG_RELAY in kernel configuration.
+ifeq ($(CONFIG_RELAY), y)
+       CONFIG_WLAN_STREAMFS := y
+endif
+endif
+
+ifeq ($(CONFIG_WLAN_DEBUGFS), y)
+       CONFIG_WLAN_MWS_INFO_DEBUGFS := y
+       CONFIG_WLAN_FEATURE_MIB_STATS := y
+else
+       CONFIG_WLAN_MWS_INFO_DEBUGFS := n
+       CONFIG_WLAN_FEATURE_MIB_STATS := n
 endif
 
 # Feature flags which are not (currently) configurable via Kconfig
