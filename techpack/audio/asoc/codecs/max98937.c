@@ -520,7 +520,7 @@ static bool max98937_volatile_register(struct device *dev, unsigned int reg)
 #define PKG_HEADER (48)
 #define PAYLOAD_COUNT (110)
 
-#ifdef CONFIG_DEBUG_FS
+#ifdef CONFIG_SND_SOC_MAX98937
 typedef enum {
 	DSM_API_MONO_SPKER                  = 0x00000000,//the mono speaker
 	DSM_API_STEREO_SPKER                = 0x03000000,//the stereo speakers
@@ -771,6 +771,7 @@ static int max989xx_calib_get(uint32_t* calib_value, int ch)
 	return found;
 }
 
+#ifdef CONFIG_DEBUG_FS
 static int max989xx_calib_save (uint32_t calib_value, int ch)
 {
 	struct file *pfile = NULL;
@@ -806,6 +807,7 @@ static int max989xx_calib_save (uint32_t calib_value, int ch)
 
 	return ret;
 }
+#endif
 
 static inline bool rdc_check_valid(uint32_t rdc, int ch)
 {
