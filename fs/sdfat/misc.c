@@ -55,7 +55,7 @@
 /*************************************************************************
  * FUNCTIONS WHICH HAS KERNEL VERSION DEPENDENCY
  *************************************************************************/
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 18, 0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 0)
 #define CURRENT_TIME_SEC	timespec64_trunc(current_kernel_time64(), NSEC_PER_SEC)
 #elif LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
 #define CURRENT_TIME_SEC        timespec_trunc(current_kernel_time(), NSEC_PER_SEC)
