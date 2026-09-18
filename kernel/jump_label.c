@@ -17,6 +17,7 @@
 #include <linux/bug.h>
 #include <linux/cpu.h>
 #include <asm/sections.h>
+#include <linux/atomic.h>
 
 #ifdef HAVE_JUMP_LABEL
 
@@ -208,7 +209,14 @@ static bool static_key_slow_try_dec(struct static_key *key)
 {
 	int val;
 
-	val = __atomic_add_unless(&key->enabled, -1, 1);
+	/*
+	 * atomic_fetch_add_unless() returns the previous value (or @u when the
+	 * add was skipped).  atomic_add_unless() returns bool since the atomics
+	 * rework, which would invert the test below and break the static-key
+	 * refcount (key would be disabled one release early / never disabled).
+	 */
+	val = atomic_fetch_add_unless(&key->enabled, -1, 1);
+
 	if (val == 1)
 		return false;
 
