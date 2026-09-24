@@ -79,7 +79,9 @@
 		qcom,mdss-pan-physical-width-dimension = <65>;
 		qcom,mdss-pan-physical-height-dimension = <140>;
 		qcom,mdss-dsi-pan-enable-dynamic-fps;
-		qcom,dsi-supported-dfps-list = <66 60 30>;
+		qcom,mdss-dsi-pan-fps-update =
+			"dfps_immediate_porch_mode_vfp";
+		qcom,dsi-supported-dfps-list = <60>;
 		qcom,disp-doze-lbm-backlight = <15>;
 		qcom,disp-doze-hbm-backlight = <190>;
 		qcom,mdss-dsi-panel-dc-threshold = <610>;
