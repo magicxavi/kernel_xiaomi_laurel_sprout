@@ -919,12 +919,21 @@
 
 	qcom,mdss-dsi-display-timings {
 		timing@0{
+			/*
+			 * 60Hz with a reduced H blanking: the DSI link drops from
+			 * 801 to 701 Mbps/lane (the 14nm PLL VCO cannot go below
+			 * 1.3GHz, which corresponds to ~650 Mbps/lane), byte clock
+			 * 100.1 -> 87.6 MHz, pclk 133.4 -> 116.7 MHz. v_total and
+			 * the frame rate are untouched, so the panel still sees the
+			 * same 10.52us line period and the very same picture; only
+			 * the SoC side (DSI PHY/PLL, MDP pclk) runs slower.
+			 */
 			qcom,mdss-dsi-panel-phy-timings =
-				[22 1E 07 08 04 02 04 a0
-				22 1E 07 08 04 02 04 a0
-				22 1E 07 08 04 02 04 a0
-				22 1E 07 08 04 02 04 a0
-				22 18 07 08 04 02 04 a0];
+				[21 1D 07 07 04 02 04 a0
+				21 1D 07 07 04 02 04 a0
+				21 1D 07 07 04 02 04 a0
+				21 1D 07 07 04 02 04 a0
+				21 15 06 07 04 02 04 a0];
 
 			qcom,display-topology = <1 0 1>;
 			qcom,default-topology-index = <0>;
@@ -945,12 +954,21 @@
 
 	qcom,mdss-dsi-display-timings {
 		timing@0{
+			/*
+			 * 60Hz with a reduced H blanking: the DSI link drops from
+			 * 800 to 700 Mbps/lane (the 14nm PLL VCO cannot go below
+			 * 1.3GHz, which corresponds to ~650 Mbps/lane), byte clock
+			 * 100.0 -> 87.5 MHz, pclk 133.2 -> 116.6 MHz. v_total and
+			 * the frame rate are untouched, so the panel still sees the
+			 * same 10.21us line period and the very same picture; only
+			 * the SoC side (DSI PHY/PLL, MDP pclk) runs slower.
+			 */
 			qcom,mdss-dsi-panel-phy-timings =
-				[22 1E 07 08 04 02 04 a0
-				22 1E 07 08 04 02 04 a0
-				22 1E 07 08 04 02 04 a0
-				22 1E 07 08 04 02 04 a0
-				22 18 07 08 04 02 04 a0];
+				[21 1D 07 07 04 02 04 a0
+				21 1D 07 07 04 02 04 a0
+				21 1D 07 07 04 02 04 a0
+				21 1D 07 07 04 02 04 a0
+				21 15 06 07 04 02 04 a0];
 
 			qcom,display-topology = <1 0 1>;
 			qcom,default-topology-index = <0>;
