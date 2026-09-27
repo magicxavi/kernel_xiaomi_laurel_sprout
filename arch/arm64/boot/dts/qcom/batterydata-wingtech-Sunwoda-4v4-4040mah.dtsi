@@ -3,7 +3,7 @@
 qcom,3446725_Wingtech_S88512_Sunwoda_4V4_4040mAh {
 	qcom,max-voltage-uv = <4400000>;
 	qcom,fg-cc-cv-threshold-uv = <4390000>;
-	qcom,fastchg-current-ma = <3000>;
+	qcom,fastchg-current-ma = <4000>;
 	qcom,batt-id-kohm = <68>;
 	qcom,battery-beta = <4250>;
 	qcom,battery-therm-kohm = <100>;

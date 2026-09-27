@@ -70,7 +70,7 @@
 	dpdm-supply = <&qusb_phy0>;
 	qcom,charger-temp-max = <800>;
 	qcom,smb-temp-max = <800>;
-	qcom,fcc-max-ua = <3000000>;
+	qcom,fcc-max-ua = <4000000>;
 	qcom,fv-max-uv = <4400000>;
 	qcom,auto-recharge-soc = <99>;
 	qcom,usb-icl-ua = <2000000>;
